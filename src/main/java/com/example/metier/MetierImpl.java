@@ -1,6 +1,7 @@
 package com.example.metier;
 
 import com.example.dao.IDao;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -10,7 +11,6 @@ public class MetierImpl implements IMetier {
 
     // Injection de dépendance : Spring injectera automatiquement une implémentation de IDao
     @Autowired
-    @Qualifier ("dao")
     private IDao dao;  // Par défaut, Spring injectera le premier bean compatible trouvé
 
     @Override
@@ -23,5 +23,9 @@ public class MetierImpl implements IMetier {
     // Setter pour l'injection par setter (alternative à l'injection par champ)
     public void setDao(IDao dao) {
         this.dao = dao;
+    }
+    @PostConstruct
+    private void init() {
+        System.out.println("[TRACE] DAO injecté = " + dao.getClass().getSimpleName());
     }
 }
